@@ -40,10 +40,10 @@ public class SodaInventoryController {
 
 	@PutMapping(path = "/soda/{brand}")
 	@ApiOperation(value = "update soda quantity")
-	public UpdateSodaResponse updateSodaQuantity(@PathVariable String machineId,@PathVariable String brand,@RequestBody @Valid UpdateSodaRequest updateSodaRequest) {
+	public UpdateSodaResponse updateSoda(@PathVariable String machineId,@PathVariable String brand,@RequestBody @Valid UpdateSodaRequest updateSodaRequest) {
 		updateSodaRequest.setMachineId(machineId);
 		updateSodaRequest.setBrand(brand);
-		return sodaInventoryService.updateSodaQuantity(updateSodaRequest);
+		return sodaInventoryService.updateSoda(updateSodaRequest);
 
 	}
 

@@ -22,7 +22,7 @@ public class SodaInventoryService {
 		return addSodaResponse;
 	}
 
-	public UpdateSodaResponse updateSodaQuantity(UpdateSodaRequest updateSodaRequest) {
+	public UpdateSodaResponse updateSoda(UpdateSodaRequest updateSodaRequest) {
 		UpdateSodaResponse  updateSodaResponse=new UpdateSodaResponse();
 		updateSodaResponse.setSodaUpdated(inventoryDao.updateSodaQuantity(updateSodaRequest));
 		return updateSodaResponse;

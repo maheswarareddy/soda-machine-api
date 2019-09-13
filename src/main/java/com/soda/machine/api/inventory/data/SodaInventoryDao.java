@@ -10,7 +10,7 @@ import com.soda.machine.api.purchase.model.Soda;
 public class SodaInventoryDao extends BaseDao {
 
 	private static final String QUERY_ADD_SODA = "INSERT into Soda(machine_id,brand,price,quantity) Values(?,?,?,?)";
-	private static final String QUERY_UPDATE_SODA = "UPDATE  Soda SET quantity = ?  where brand= ? and machine_id=?";
+	private static final String QUERY_UPDATE_SODA = "UPDATE  Soda SET quantity = ?,price = ?  where brand= ? and machine_id=?";
 	private static final String QUERY_GET_SODA = "Select * from Soda  where brand= ? and machine_id = ?";
 	private static final String QUERY_DELETE_SODA = "DELETE  from Soda  where brand= ? and machine_id = ?";
 
@@ -19,8 +19,8 @@ public class SodaInventoryDao extends BaseDao {
 	}
 
 	public Boolean updateSodaQuantity(UpdateSodaRequest updateSodaRequest) {
-		return update(QUERY_UPDATE_SODA, new Object[] { updateSodaRequest.getQuantity(), updateSodaRequest.getBrand(),
-				updateSodaRequest.getMachineId() });
+		return update(QUERY_UPDATE_SODA, new Object[] { updateSodaRequest.getQuantity(), updateSodaRequest.getPrice(),
+				updateSodaRequest.getBrand(), updateSodaRequest.getMachineId() });
 	}
 
 	public Boolean deleteSoda(String machineId, String brand) {

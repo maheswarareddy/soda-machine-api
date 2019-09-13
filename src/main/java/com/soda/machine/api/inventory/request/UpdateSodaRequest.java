@@ -12,6 +12,8 @@ public class UpdateSodaRequest {
 
 	@JsonIgnore
 	private String brand;
+	
+	private double price;
 
 	private int quantity;
 
@@ -29,7 +31,13 @@ public class UpdateSodaRequest {
 		this.machineId = machineId;
 	}
 
+	public double getPrice() {
+		return price;
+	}
 
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	public void setBrand(String brand) {
 		this.brand = brand;

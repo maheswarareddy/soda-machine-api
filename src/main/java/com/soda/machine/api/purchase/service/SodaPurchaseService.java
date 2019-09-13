@@ -80,6 +80,6 @@ public class SodaPurchaseService {
 		updateSodaRequest.setMachineId(machineId);
 		updateSodaRequest.setBrand(brand);
 		updateSodaRequest.setQuantity(quantity - buyingQuantity);
-		inventoryService.updateSodaQuantity(updateSodaRequest);
+		inventoryService.updateSoda(updateSodaRequest);
 	}
 }
