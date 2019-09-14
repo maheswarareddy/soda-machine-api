@@ -38,11 +38,9 @@ public class SodaPurchaseService {
 		Soda soda = inventoryService.getSoda(purchaseRequest.getMachineId(), purchaseRequest.getBrand());
 		if (soda.getQuantity() > purchaseRequest.getQuantity() && machineState.getMoneyInserted() >= soda.getPrice()) {
 			LOG.debug("Inside purchase soda block");
-			saveSodaPurchaseInformation(
-					getSodaPurchaseInformation(purchaseRequest.getMachineId(),purchaseRequest.getBrand(), purchaseRequest.getQuantity()));
+			saveSodaPurchaseInformation(getSodaPurchaseInformation(purchaseRequest));
 			updateSodaMachineState(purchaseRequest.getMachineId());
-			updateSodaQuantity(purchaseRequest.getMachineId(), purchaseRequest.getBrand(), soda.getQuantity(),
-					purchaseRequest.getQuantity());
+			updateSodaQuantity(purchaseRequest, soda);
 			return purchaseResponse;
 		} else if (machineState.getMoneyInserted() < soda.getPrice()) {
 			purchaseResponse.setErrorCode(SodaPurchaseErrorCodes.INSUFFICIENT_CREDIT.getErrorCode());
@@ -60,11 +58,11 @@ public class SodaPurchaseService {
 		return sodaPurchaseDao.getSodaPurchaseInformation(machineId, brand);
 	}
 
-	private SodaPurchaseInformation getSodaPurchaseInformation(String machineId,String brand, int quantity) {
+	private SodaPurchaseInformation getSodaPurchaseInformation(SodaPurchaseRequest purchaseRequest) {
 		SodaPurchaseInformation purchaseInformation = new SodaPurchaseInformation();
-		purchaseInformation.setBrand(brand);
-		purchaseInformation.setMachineId(machineId);
-		purchaseInformation.setQuantity(quantity);
+		purchaseInformation.setBrand(purchaseRequest.getBrand());
+		purchaseInformation.setMachineId(purchaseRequest.getMachineId());
+		purchaseInformation.setQuantity(purchaseRequest.getQuantity());
 		return purchaseInformation;
 	}
 
@@ -75,11 +73,12 @@ public class SodaPurchaseService {
 		sodaMachineStateService.updateSodaMachineState(sodaMachineStateRequest);
 	}
 
-	private void updateSodaQuantity(String machineId, String brand, int quantity, int buyingQuantity) {
+	private void updateSodaQuantity(SodaPurchaseRequest purchaseRequest, Soda soda) {
 		UpdateSodaRequest updateSodaRequest = new UpdateSodaRequest();
-		updateSodaRequest.setMachineId(machineId);
-		updateSodaRequest.setBrand(brand);
-		updateSodaRequest.setQuantity(quantity - buyingQuantity);
+		updateSodaRequest.setMachineId(purchaseRequest.getMachineId());
+		updateSodaRequest.setBrand(purchaseRequest.getBrand());
+		updateSodaRequest.setPrice(soda.getPrice());
+		updateSodaRequest.setQuantity(soda.getQuantity() - purchaseRequest.getQuantity());
 		inventoryService.updateSoda(updateSodaRequest);
 	}
 }
